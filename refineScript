@@ -1,0 +1,333 @@
+
+[
+ {
+   "op": “core/mass-edit”,
+   "description": “Mass edit cells in column Column 3”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": []
+   },
+   "columnName": “Column 3”,
+   "expression": “value”,
+   "edits": [
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "C",
+         "C/“
+       ],
+       "to”: “CALLE”
+     }
+   ]
+ },
+ {
+   "op": “core/mass-edit”,
+   "description": “Mass edit cells in column Column 3”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": []
+   },
+   "columnName": “Column 3”,
+   "expression": “value”,
+   "edits": [
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "GRUP",
+         "GRUPO"
+       ],
+       "to": “GRUP”
+     }
+   ]
+ },
+ {
+   "op": “core/mass-edit”,
+   "description": “Mass edit cells in column Column 3”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": []
+   },
+   "columnName": “Column 3”,
+   "expression": “value”,
+   "edits": [
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "CALLE",
+         "CLLJA"
+       ],
+       "to": “CALLE”
+     },
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "PASEO",
+         "PSAJE"
+       ],
+       "to": “PASEO”
+     }
+   ]
+ },
+ {
+   "op": “core/mass-edit”,
+   "description": “Mass edit cells in column Column 4”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": []
+   },
+   "columnName": “Column 4”,
+   "expression": “value”,
+   "edits": [
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "JOSE ANTONIO",
+         "JOSÉ ANTONIO"
+       ],
+       "to": “JOSE ANTONIO”
+     },
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "CALVO SOTELO (DE)“,
+         "CALVO SOTELO, DE”
+       ],
+       "to": “CALVO SOTELO (DE)”
+     }
+   ]
+ },
+ {
+   "op": “core/mass-edit”,
+   "description": “Mass edit cells in column Column 4”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": []
+   },
+   "columnName": “Column 4”,
+   "expression": “value”,
+   "edits": [
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "QUEIPO DE LLANO",
+         "QUEIPO DE LLANO I",
+         "QUEIPO DE LLANO II"
+       ],
+       "to": “QUEIPO DE LLANO”
+     },
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "RUIZ DE ALDA",
+         "RUIZ DE ALDA (A)“
+       ],
+       "to”: “RUIZ DE ALDA”
+     },
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "JOSE ANTONIO (B)“,
+         "JOSE ANTONIO (P)”
+       ],
+       "to": “JOSE ANTONIO (B)”
+     },
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "JOSE ANTONIO ©“,
+         "JOSE ANTONIO (GA)”
+       ],
+       "to": “JOSE ANTONIO ©”
+     }
+   ]
+ },
+ {
+   "op": “core/mass-edit”,
+   "description": “Mass edit cells in column Column 4”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": []
+   },
+   "columnName": “Column 4”,
+   "expression": “value”,
+   "edits": [
+     {
+       "fromBlank": false,
+       "fromError": false,
+       "from": [
+         "GENERALISIMO (DEL)“,
+         "GENERALISIMO (EL)”
+       ],
+       "to": “GENERALISIMO (DEL)”
+     }
+   ]
+ },
+ {
+   "op": “core/column-addition”,
+   "description": “Create column adresse at index 3 based on column Column 3 using expression grel:value+" "+cells["Column 4"].value+","+cells["Column 2"].value+","+cells["Column 1"].value+",SPAIN"”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": []
+   },
+   "newColumnName": “adresse”,
+   "columnInsertIndex": 3,
+   "baseColumnName": “Column 3”,
+   "expression": “grel:value+" "+cells["Column 4"].value+","+cells["Column 2"].value+","+cells["Column 1"].value+",SPAIN"”,
+   "onError": “set-to-blank”
+ },
+ {
+   "op": “core/column-move”,
+   "description": “Move column adresse to position 4”,
+   "columnName": “adresse”,
+   "index": 4
+ },
+ {
+   "op": “core/column-addition”,
+   "description": “Create column url at index 5 based on column adresse using expression grel:‘https://maps.googleapis.com/maps/api/geocode/json?key=[YOUR_API_KEY_HERE]’ +\n’&sensor=false&’ +\n'address=’ + escape(value, 'url’)”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": [
+       {
+         "omitError": false,
+         "expression": “row.starred”,
+         "selectBlank": false,
+         "selection": [
+           {
+             "v": {
+               "v": false,
+               "l": “false”
+             }
+           }
+         ],
+         "selectError": false,
+         "invert": false,
+         "name": “Starred Rows”,
+         "omitBlank": false,
+         "type": “list”,
+         "columnName": “”
+       }
+     ]
+   },
+   "newColumnName": “url”,
+   "columnInsertIndex": 5,
+   "baseColumnName": “adresse”,
+   "expression": “grel:'https://maps.googleapis.com/maps/api/geocode/json?key=[YOUR_API_KEY_HERE]’ +\n’&sensor=false&’ +\n'address=’ + escape(value, 'url’)”,
+   "onError": “set-to-blank”
+ },
+ {
+   "op": “core/column-addition-by-fetching-urls”,
+   "description": “Create column json at index 6 by fetching URLs based on column url using expression grel:value”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": [
+       {
+         "omitError": false,
+         "expression": “row.starred”,
+         "selectBlank": false,
+         "selection": [
+           {
+             "v": {
+               "v": false,
+               "l": “false”
+             }
+           }
+         ],
+         "selectError": false,
+         "invert": false,
+         "name": “Starred Rows”,
+         "omitBlank": false,
+         "type": “list”,
+         "columnName": “”
+       }
+     ]
+   },
+   "newColumnName": “json”,
+   "columnInsertIndex": 6,
+   "baseColumnName": “url”,
+   "urlExpression": “grel:value”,
+   "onError": “store-error”,
+   "delay": 2000,
+   "cacheResponses": true
+ },
+ {
+   "op": “core/column-addition”,
+   "description": “Create column Lat at index 7 based on column json using expression grel:value.parseJson().results[0].geometry.location.lat”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": [
+       {
+         "omitError": false,
+         "expression": “row.starred”,
+         "selectBlank": false,
+         "selection": [
+           {
+             "v": {
+               "v": false,
+               "l": “false”
+             }
+           }
+         ],
+         "selectError": false,
+         "invert": false,
+         "name": “Starred Rows”,
+         "omitBlank": false,
+         "type": “list”,
+         "columnName": “”
+       }
+     ]
+   },
+   "newColumnName": “Lat”,
+   "columnInsertIndex": 7,
+   "baseColumnName": “json”,
+   "expression": “grel:value.parseJson().results[0].geometry.location.lat”,
+   "onError": “set-to-blank”
+ },
+ {
+   "op": “core/column-addition”,
+   "description": “Create column Lon at index 7 based on column json using expression grel:value.parseJson().results[0].geometry.location.lng”,
+   "engineConfig": {
+     "mode": “row-based”,
+     "facets": [
+       {
+         "omitError": false,
+         "expression": “row.starred”,
+         "selectBlank": false,
+         "selection": [
+           {
+             "v": {
+               "v": false,
+               "l": “false”
+             }
+           }
+         ],
+         "selectError": false,
+         "invert": false,
+         "name": “Starred Rows”,
+         "omitBlank": false,
+         "type": “list”,
+         "columnName": “”
+       }
+     ]
+   },
+   "newColumnName": “Lon”,
+   "columnInsertIndex": 7,
+   "baseColumnName": “json”,
+   "expression": “grel:value.parseJson().results[0].geometry.location.lng”,
+   "onError": “set-to-blank”
+ },
+ {
+   "op": “core/column-removal”,
+   "description": “Remove column url”,
+   "columnName": “url”
+ }
+]
